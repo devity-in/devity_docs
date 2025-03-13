@@ -1,0 +1,36 @@
+name: Deploy Devity Docs to Firebase
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to Firebase
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install MkDocs and Dependencies
+        run: |
+          pip install mkdocs mkdocs-material
+
+      - name: Build MkDocs Site
+        run: mkdocs build --clean
+
+      - name: Deploy to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" # We need to create a service account in Firebase and set the key on github secrets
+          channelId: live
+          projectId: "devity-in"
+          target: "devity-docs"

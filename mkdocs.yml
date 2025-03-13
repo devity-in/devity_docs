@@ -1,0 +1,4 @@
+site_name: Devity Docs
+site_url: https://docs.devity.in
+theme:
+  name: material
