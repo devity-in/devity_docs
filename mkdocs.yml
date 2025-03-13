@@ -2,3 +2,44 @@ site_name: Devity Docs
 site_url: https://docs.devity.in
 theme:
   name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: "#1C1536"  # Corrected primary color
+      accent: purple
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: "#1C1536"
+      accent: cyan
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+
+  features:
+    - search.suggest
+    - search.highlight
+    - search.share
+
+extra:
+  features:
+    - navigation.instant  # Faster page loads
+    - navigation.tracking # Update URL as you scroll
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand   # Expand menu by default
+    - content.code.copy   # Copy button for code blocks 
+    - content.code.select # Selectable code blocks
+    - content.code.annotate # Annotate code blocks
+    - content.tabs.link
+    - toc.follow          # Keep Table of Contents visible
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/devity-in
+    - icon: fontawesome/brands/twitter
+      link: https://x.com/devity_in?mx=2
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/company/devity-in

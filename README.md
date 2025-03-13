@@ -1,3 +1,6 @@
+[![Updated status of docs.devity.in](https://github.com/devity-in/devity_docs/actions/workflows/ci.yml/badge.svg)](https://github.com/devity-in/devity_docs/actions/workflows/ci.yml)
+
+
 # Devity Documentation
 
 Welcome to the Devity documentation repository. This repository contains all essential guides, API references, SDK usage instructions, infrastructure details, and best practices for using Devity effectively.
