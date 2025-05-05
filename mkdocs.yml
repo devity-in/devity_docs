@@ -24,6 +24,54 @@ theme:
     - search.highlight
     - search.share
 
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Overview: getting-started/index.md
+    - Flutter SDK: getting-started/flutter_sdk.md
+  - Core Concepts:
+    - Overview: core-concepts/index.md
+    - Specs & Workflows: core-concepts/specs_and_workflows.md
+    - Renderers & Layouts: core-concepts/renderers_layouts.md
+    - Widgets: core-concepts/widgets.md
+    - Actions & Events: core-concepts/actions_events.md
+    - Data Binding: core-concepts/data_binding.md
+    - Expressions: core-concepts/expressions.md
+    - Rules: core-concepts/rules.md
+    - Styling: core-concepts/styling.md
+  - Reference:
+    - Overview: reference/index.md
+    - Console Guide: reference/console_guide.md
+    - Spec Schema: reference/spec_schema.md
+    - Component Library:
+      - Overview: reference/components/index.md
+      - Renderers:
+        - Overview: reference/components/renderers/index.md
+        - Column: reference/components/renderers/column.md
+        # - Row: reference/components/renderers/row.md # Add others as created
+      - Widgets:
+        - Overview: reference/components/widgets/index.md
+        - Text: reference/components/widgets/text.md
+        # - Button: reference/components/widgets/button.md # Add others as created
+      - Actions:
+        - Overview: reference/components/actions/index.md
+        - Navigate: reference/components/actions/navigate.md
+        # - ApiCall: reference/components/actions/apicall.md # Add others as created
+    - Flutter SDK API: reference/flutter_sdk_api.md
+    - Backend API Design: reference/backend_api_design.md
+  - Tutorials:
+    - Overview: tutorials/index.md
+    - Building a Login Form: tutorials/building_a_login_form.md
+  - Advanced:
+    - Overview: advanced/index.md
+    - Custom Widgets: advanced/custom_widgets.md
+    - Custom Actions: advanced/custom_actions.md
+    - AI Assistant Usage: advanced/ai_assistant.md
+    - Deployment Strategies: advanced/deployment.md
+  - Architecture: architecture.md
+  - Security: security.md
+  - FAQ: faq.md
+
 extra:
   features:
     - navigation.instant  # Faster page loads
