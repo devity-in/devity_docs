@@ -129,28 +129,127 @@ See [Component Reference: Widgets](../components/widgets/) for details on each `
 
 ## 5. Action Object
 
-Defines an operation to be executed.
+Defines an operation to be executed. Actions can be defined in the top-level `actions` map and referenced by their ID from various event hooks on screens (e.g., `onLoadActions`) or widgets (e.g., `onClickActionIds`).
 
 ```json
 {
   "id": "action_navigate_details", // String, Required: Unique identifier for this action.
   "type": "Action",               // String, Required: Must be "Action".
   "actionType": "Navigate",       // String, Required: Specifies the operation (e.g., "Navigate", "ApiCall", "ShowAlert", "UpdateWidgetState", "SetData").
-  "attributes": { ... }         // Object, Optional: Parameters specific to the `actionType`. Values can be static or use data binding.
+  "attributes": { ... }         // Object, Required: Parameters specific to the `actionType`. Values can be static or use data binding.
 }
 ```
 
 - **`id` (String, Required):** Unique identifier for the action.
 - **`type` (String, Required):** Must always be `"Action"`.
-- **`actionType` (String, Required):** Determines the operation. Initial supported types:
-  - `"Navigate"`: Changes screen. Attributes: `targetScreenId` (String|Binding, required), `transitionType` (String), `clearHistory` (Boolean), `screenData` (Object|Binding).
-  - `"ApiCall"`: Makes network request. Attributes: `url` (String|Binding, required), `method` (String, e.g., `"GET"`, `"POST"`, required), `headers` (Object|Binding), `body` (Object|String|Binding), `onSuccessActionIds` (Array<String>), `onFailureActionIds` (Array<String>).
-  - `"ShowAlert"`: Displays a message. Attributes: `title` (String|Binding), `message` (String|Binding, required), `buttonText` (String|Binding).
-  - `"UpdateWidgetState"`: Modifies another widget. Attributes: `targetWidgetId` (String|Binding, required), `newState` (Object|Binding, required - map of attributes/style to update).
-  - `"SetData"`: Updates state data. Attributes: `scope` (String, e.g., `"global"`, `"screen"`, `"widget"`, default: `"screen"`), `targetId` (String|Binding, required if scope is `"widget"`), `data` (Object|Binding, required - data to merge into the target scope).
-- **`attributes` (Object, Optional):** Key-value pairs specific to the `actionType`. Values can be literals or use [Data Binding Syntax](#7-data-binding-syntax).
+- **`actionType` (String, Required):** Determines the operation. For Milestone 3, the focus is on:
+  - `Navigate`
+  - `ShowAlert`
 
-See [Component Reference: Actions](../components/actions/) for details on each `actionType`.
+Other types like `ApiCall`, `UpdateWidgetState`, `SetData` will be detailed in later milestones.
+
+### 5.1 `Navigate` Action
+
+Changes the currently displayed screen.
+
+**`actionType`: `"Navigate"`**
+
+**Attributes (`attributes` object):**
+
+- **`targetScreenId` (String | Binding, Required):** The `id` of the [Screen Object](#2-screen-object) to navigate to.
+  - Example: `"screen_user_profile"`
+  - Example (Binding): `"{{data.nextScreen}}"`
+- **`transitionType` (String, Optional):** Specifies the visual transition. SDKs may support common types like:
+  - `"default"` (SDK-defined default)
+  - `"slide_left"`
+  - `"slide_right"`
+  - `"fade"`
+  - Example: `"slide_left"`
+- **`clearHistory` (Boolean, Optional, default: `false`):** If `true`, the navigation history up to this point will be cleared, so the user cannot navigate back to previous screens.
+  - Example: `true`
+- **`screenData` (Object | Binding, Optional):** A JSON object containing data to be passed to the target screen. This data might be accessible within the target screen's context (e.g., via `{{state.screenData.param_name}}` or a similar mechanism defined by the SDK for passed data).
+  - Example: `{"userId": "user123", "source": "home"}`
+  - Example (Binding): `"{{form.checkoutDetails}}"`
+
+**Example `Navigate` Action Definition:**
+
+```json
+// In top-level "actions" map:
+"actions": {
+  "go_to_profile": {
+    "id": "go_to_profile",
+    "type": "Action",
+    "actionType": "Navigate",
+    "attributes": {
+      "targetScreenId": "screen_user_profile",
+      "transitionType": "slide_left",
+      "screenData": { "viewMode": "edit" }
+    }
+  }
+}
+```
+
+**Usage in a Widget:**
+
+```json
+// In a Button widget's definition:
+{
+  "id": "profile_button",
+  "type": "Widget",
+  "widgetType": "Button",
+  "attributes": { "text": "View Profile" },
+  "onClickActionIds": ["go_to_profile"]
+}
+```
+
+### 5.2 `ShowAlert` Action
+
+Displays a native-style alert dialog to the user.
+
+**`actionType`: `"ShowAlert"`**
+
+**Attributes (`attributes` object):**
+
+- **`title` (String | Binding, Optional):** The title of the alert dialog.
+  - Example: `"Confirmation"`
+  - Example (Binding): `"{{translations.alert_title_success}}"`
+- **`message` (String | Binding, Required):** The main content/message of the alert dialog.
+  - Example: `"Your changes have been saved successfully."`
+  - Example (Binding): `"{{api.last_error.message}}"`
+- **`buttonText` (String | Binding, Optional, default: `"OK"` by SDK):** The text for the primary confirmation button in the alert.
+  - Example: `"Got it!"`
+
+**Example `ShowAlert` Action Definition:**
+
+```json
+// In top-level "actions" map:
+"actions": {
+  "show_save_success": {
+    "id": "show_save_success",
+    "type": "Action",
+    "actionType": "ShowAlert",
+    "attributes": {
+      "title": "Success!",
+      "message": "Your information has been updated.",
+      "buttonText": "Continue"
+    }
+  }
+}
+```
+
+**Usage in a Screen's `onLoadActions`:**
+
+```json
+// In a Screen object's definition:
+{
+  "id": "screen_confirmation",
+  "type": "Screen",
+  "body": { ... },
+  "onLoadActions": ["show_save_success"]
+}
+```
+
+See [Component Reference: Actions](../components/actions/) for evolving details on all `actionType`s.
 
 ## 6. Rule Object
 
